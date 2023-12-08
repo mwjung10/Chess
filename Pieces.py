@@ -17,6 +17,29 @@ class Pawn(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'p' if player == 1 else 'P'
+    
+    def possible_moves(self, current_row, current_col, board):
+        moves = []
+
+        forward_row = current_row + (-1 if self.player == 1 else 1)
+        if 0 <= forward_row <= 7 and board.pieces[forward_row][current_col] is None:
+            moves.append((forward_row, current_col))
+            # If pawn is on the first row it can move 2 swquares forward
+            if ((self.player == 1 and current_row == 6) or (self.player == 2 and current_row == 1)) and board.pieces[forward_row - 1* (1 if self.player == 1 else -1)][current_col] is None:
+                moves.append((forward_row - 1 * (1 if self.player == 1 else -1), current_col))
+
+        # Checking for diagonal captures
+        left_col = current_col - 1
+        right_col = current_col + 1
+
+        if 0 <= forward_row < 8:
+            if 0 <= left_col < 8 and board._pieces[forward_row][left_col] is not None and board.pieces[forward_row][left_col].player != self.player:
+                moves.append((forward_row, left_col))
+
+            if 0 <= right_col < 8 and board._pieces[forward_row][right_col] is not None and board.pieces[forward_row][right_col].player != self.player:
+                moves.append((forward_row, right_col))
+
+        return moves
 
 class Rook(ChessPiece):
     def __init__(self, player):
@@ -76,6 +99,14 @@ class ChessBoard:
     def place_piece(self, piece, row, col):
         self._board[row][col] = str(piece)
         self._pieces[row][col] = piece
+    
+    @property
+    def board(self):
+        return self._board
+
+    @property
+    def pieces(self):
+        return self._pieces
 
     def display_board(self):
         for row_number, row in enumerate(self._board, 1):
@@ -85,8 +116,6 @@ class ChessBoard:
         for column_number in range(1, 9):
             print(str(column_number) + ' ', end = '')
 
-# Example usage:
-board = ChessBoard()
 
-# Display the board
+board = ChessBoard()
 board.display_board()
