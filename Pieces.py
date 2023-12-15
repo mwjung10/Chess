@@ -21,50 +21,175 @@ class Pawn(ChessPiece):
     def possible_moves(self, current_row, current_col, board):
         moves = []
 
-        forward_row = current_row + (-1 if self.player == 1 else 1)
+        forward_row = current_row + (-1 if self.player == 2 else 1)
         if 0 <= forward_row <= 7 and board.pieces[forward_row][current_col] is None:
             moves.append((forward_row, current_col))
             # If pawn is on the first row it can move 2 swquares forward
-            if ((self.player == 1 and current_row == 6) or (self.player == 2 and current_row == 1)) and board.pieces[forward_row - 1* (1 if self.player == 1 else -1)][current_col] is None:
-                moves.append((forward_row - 1 * (1 if self.player == 1 else -1), current_col))
+            if ((self.player == 2 and current_row == 6) or (self.player == 1 and current_row == 1)) and board.pieces[forward_row - 1* (1 if self.player == 2 else -1)][current_col] is None:
+                moves.append((forward_row - 1 * (1 if self.player == 2 else -1), current_col))
 
         # Checking for diagonal captures
         left_col = current_col - 1
         right_col = current_col + 1
 
         if 0 <= forward_row < 8:
-            if 0 <= left_col < 8 and board._pieces[forward_row][left_col] is not None and board.pieces[forward_row][left_col].player != self.player:
+            if 0 <= left_col < 8 and board.pieces[forward_row][left_col] is not None and board.pieces[forward_row][left_col].player != self.player:
                 moves.append((forward_row, left_col))
 
-            if 0 <= right_col < 8 and board._pieces[forward_row][right_col] is not None and board.pieces[forward_row][right_col].player != self.player:
+            if 0 <= right_col < 8 and board.pieces[forward_row][right_col] is not None and board.pieces[forward_row][right_col].player != self.player:
                 moves.append((forward_row, right_col))
 
-        return moves
+        return set(moves)
 
 class Rook(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'r' if player == 1 else 'R'
+    
+
+    def possible_moves(self, current_row, current_col, board):
+        moves = []
+
+        # Checking upward moves
+        for row in range(current_row - 1, -1, -1):
+            if board.pieces[row][current_col] is None:
+                moves.append((row, current_col))
+            else:
+                if board.pieces[row][current_col].player != self.player:
+                    moves.append((row, current_col))
+                break 
+
+        # Checking downward moves
+        for row in range(current_row + 1, 8):
+            if board.pieces[row][current_col] is None:
+                moves.append((row, current_col))
+            else:
+                if board.pieces[row][current_col].player != self.player:
+                    moves.append((row, current_col))
+                break
+
+        # Checking leftward moves
+        for col in range(current_col - 1, -1, -1):
+            if board.pieces[current_row][col] is None:
+                moves.append((current_row, col))
+            else:
+                if board.pieces[current_row][col].player != self.player:
+                    moves.append((current_row, col))
+                break
+
+        # Checking rightward moves
+        for col in range(current_col + 1, 8):
+            if board.pieces[current_row][col] is None:
+                moves.append((current_row, col))
+            else:
+                if board.pieces[current_row][col].player != self.player:
+                    moves.append((current_row, col))
+                break
+
+        return set(moves)
+    
 
 class Knight(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'n' if player == 1 else 'N'
+    
+    def possible_moves(self, current_row, current_col, board):
+        moves = []
+        possible_directions = [(-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2, 1)]
+
+        for direction in possible_directions:
+            new_row  = current_row + direction[0]
+            new_col =  current_col + direction[1]
+            if 0 <= new_row < 8 and 0 <= new_col < 8:
+                destination = board.pieces[new_row][new_col]
+                if destination is None or destination.player != self.player:
+                    moves.append((new_row, new_col))
+
+        return set(moves) 
 
 class Bishop(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'b' if player == 1 else 'B'
+    
+
+    def possible_moves(self, current_row, current_col, board):
+        moves = []
+        possible_directions = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
+
+        for direction in possible_directions:
+            new_row  = current_row + direction[0]
+            new_col =  current_col + direction[1]
+            while 0 <= new_row < 8 and 0 <= new_col < 8:
+                destination_piece = board.pieces[new_row][new_col]
+
+                if destination_piece is None:
+                    moves.append((new_row, new_col))
+                elif destination_piece.player != self.player:
+                    moves.append((new_row, new_col))
+                    break
+                else:
+                    break 
+
+                new_row += direction[0]
+                new_col += direction[1]
+
+        return set(moves)
 
 class Queen(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'q' if player == 1 else 'Q'
+    
+    def possible_moves(self, current_row, current_col, board):
+        moves = []
+        possible_directions = [
+            (-1, 0), (1, 0), (0, -1), (0, 1),  #upward, downward, left, right
+            (-1, -1), (-1, 1), (1, -1), (1, 1) #diagonal
+        ]
+
+        for direction in possible_directions:
+            new_row, new_col = current_row + direction[0], current_col + direction[1]
+
+            while 0 <= new_row < 8 and 0 <= new_col < 8:
+                destination_piece = board.pieces[new_row][new_col]
+
+                if destination_piece is None:
+                    moves.append((new_row, new_col))
+                elif destination_piece.player != self.player:
+                    moves.append((new_row, new_col))
+                    break
+                else:
+                    break 
+
+                new_row += direction[0]
+                new_col += direction[1]
+
+        return set(moves)
 
 class King(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'k' if player == 1 else 'K'
+    
+
+    def possible_moves(self, current_row, current_col, board):
+        moves = []
+        directions = [
+            (-1, 0), (1, 0), (0, -1), (0, 1),
+            (-1, -1), (-1, 1), (1, -1), (1, 1)  
+        ]
+
+        for direction in directions:
+            new_row, new_col = current_row + direction[0], current_col + direction[1]
+
+            if 0 <= new_row < 8 and 0 <= new_col < 8:
+                destination_piece = board.pieces[new_row][new_col]
+                if destination_piece is None or destination_piece.player != self.player:
+                    moves.append((new_row, new_col))
+
+        return set(moves)
 
 class ChessBoard:
     def __init__(self):
@@ -103,6 +228,11 @@ class ChessBoard:
     @property
     def board(self):
         return self._board
+
+    def create_empty_board(self):
+        self._board = [['O' if (i + j) % 2 == 0 else 'X' for j in range(8)] for i in range(8)]
+        self._pieces = [[None for j in range(8)] for i in range(8)]
+    
 
     @property
     def pieces(self):
