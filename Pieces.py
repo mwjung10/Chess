@@ -13,6 +13,17 @@ class ChessPiece:
     def __str__(self):
         return self._symbol
 
+
+class CoordinatesOutOfRange(Exception):
+    def __init__(self):
+        super().__init__("Coordinates out of range. Board has 8x8 squares")
+
+
+class InvalidMove(Exception):
+    def __init__(self):
+        super().__init__("Invalid move. Select different move")
+
+
 class Pawn(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
@@ -245,6 +256,87 @@ class ChessBoard:
         print('  ', end ='')
         for column_number in range(1, 9):
             print(str(column_number) + ' ', end = '')
+    
+    def move_piece(self, piece_row, piece_column, row_to_move, column_to_move, player):
+        #Function has to get already corrected coordinates. Coordinates have to be corrected (row -1, column - 1) outside the function.
+        if not (0 <= piece_row < 8 and 0 <= piece_column < 8 and 0 <= row_to_move < 8 and 0 <= column_to_move < 8):
+            raise CoordinatesOutOfRange()
+
+        current_piece = self._pieces[piece_row][piece_column]
+
+        if current_piece is None or current_piece.player != player:
+            raise InvalidMove()
+
+        if (row_to_move, column_to_move) not in current_piece.possible_moves(piece_row, piece_column, self):
+            raise InvalidMove()
+
+        self._pieces[piece_row][piece_column] = None
+        self._pieces[row_to_move][column_to_move] = current_piece
+
+        self.update_board_display()
+
+    def update_board_display(self):
+        self._board = [['O' if (i + j) % 2 == 0 else 'X' for j in range(8)] for i in range(8)]
+
+        for row in range(8):
+            for col in range(8):
+                piece = self._pieces[row][col]
+                if piece is not None:
+                    self._board[row][col] = str(piece)
+
+        # Display the updated board
+        self.display_board()
+    
+    def is_in_check(self, row, col, player):
+        # Check if the piece is under threat 
+        for i in range(8):
+            for j in range(8):
+                piece = self._pieces[i][j]
+                if piece is not None and piece.player != player:
+                    moves = piece.possible_moves(i, j, self)
+                    if (row, col) in moves:
+                        return True
+        return False
+    
+    def is_checkmate(self, player):
+        # True if in checkmate, Flase if not
+        # Find the king's position for the player
+        king_position = None
+        for row in range(8):
+            for col in range(8):
+                piece = self._pieces[row][col]
+                if isinstance(piece, King) and piece.player == player:
+                    king_position = (row, col)
+                    break
+            if king_position:
+                break
+
+
+        # Check if the king is in check
+        if self.is_in_check(king_position[0], king_position[1], player):
+            # Check if there are any legal moves to escape the check
+            for row in range(8):
+                for col in range(8):
+                    piece = self._pieces[row][col]
+                    if piece is not None and piece.player == player:
+                        moves = piece.possible_moves(row, col, self)
+                        for move in moves:
+                            temp_board = self.copy_board()
+                            temp_board.move_piece(row, col, move[0], move[1], player)
+                            if not temp_board.is_in_check(king_position[0], king_position[1], player):
+                                return False  
+
+            return True
+
+        return False
+
+    def copy_board(self):
+        # Create a copy of the current board and pieces
+        copy_board = ChessBoard()
+        copy_board._board = [row.copy() for row in self._board]
+        copy_board._pieces = [row.copy() for row in self._pieces]
+        return copy_board
+
 
 
 board = ChessBoard()

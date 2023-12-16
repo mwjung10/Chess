@@ -1,5 +1,7 @@
 from Pieces import ChessPiece, ChessBoard
 from Pieces import Pawn, Rook, Bishop, Knight, King, Queen
+from Pieces import CoordinatesOutOfRange, InvalidMove
+import pytest
 
 def test_piece_creation():
     pawn = Pawn(1)
@@ -229,3 +231,42 @@ def test_king_possible_moves_blocked_by_pieces():
         (3, 2), (3, 4), 
         (4, 3), (4, 2), (4, 4), 
     }
+
+
+def test_move_piece_successful():
+    board = ChessBoard()
+    board.create_empty_board()
+    board.place_piece(Rook(1), 1, 1) 
+
+    assert board.pieces[1][1].player == 1  # Check the initial position of the piece
+    assert board.pieces[2][1] is None  
+
+    board.move_piece(1, 1, 2, 1, 1)
+
+    assert board.pieces[1][1] is None 
+    assert board.pieces[2][1].player == 1  
+
+def test_move_piece_invalid_coordinates():
+    board = ChessBoard()
+    board.create_empty_board()
+    board.place_piece(Rook(1), 1, 1) 
+
+    with pytest.raises(CoordinatesOutOfRange):
+        board.move_piece(1, 1, 8, 8, 1)
+
+def test_move_piece_invalid_player():
+    board = ChessBoard()
+    board.create_empty_board()
+    board.place_piece(Rook(1), 1, 1)  
+
+    with pytest.raises(InvalidMove):
+        board.move_piece(1, 1, 2, 1, 2)
+
+def test_move_piece_invalid_move():
+    board = ChessBoard()
+    board.create_empty_board()
+    board.place_piece(Rook(1), 1, 1) 
+
+    with pytest.raises(InvalidMove):
+        board.move_piece(1, 1, 4, 4, 1)
+
