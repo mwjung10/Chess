@@ -5,11 +5,11 @@ class ChessPiece:
     @property
     def player(self):
         return self._player
-    
+
     @property
     def symbol(self):
         return self._symbol
-    
+
     def __str__(self):
         return self._symbol
 
@@ -28,15 +28,18 @@ class Pawn(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'p' if player == 1 else 'P'
-    
+
     def possible_moves(self, current_row, current_col, board):
         moves = []
 
         forward_row = current_row + (-1 if self.player == 2 else 1)
-        if 0 <= forward_row <= 7 and board.pieces[forward_row][current_col] is None:
+        if (0 <= forward_row <= 7 and
+                board.pieces[forward_row][current_col] is None):
             moves.append((forward_row, current_col))
             # If pawn is on the first row it can move 2 swquares forward
-            if ((self.player == 2 and current_row == 6) or (self.player == 1 and current_row == 1)) and board.pieces[forward_row - 1* (1 if self.player == 2 else -1)][current_col] is None:
+            if (((self.player == 2 and current_row == 6) or
+                    (self.player == 1 and current_row == 1)) and
+                    board.pieces[forward_row - 1 * (1 if self.player == 2 else - 1)][current_col] is None):
                 moves.append((forward_row - 1 * (1 if self.player == 2 else -1), current_col))
 
         # Checking for diagonal captures
@@ -52,11 +55,11 @@ class Pawn(ChessPiece):
 
         return set(moves)
 
+
 class Rook(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'r' if player == 1 else 'R'
-    
 
     def possible_moves(self, current_row, current_col, board):
         moves = []
@@ -68,7 +71,7 @@ class Rook(ChessPiece):
             else:
                 if board.pieces[row][current_col].player != self.player:
                     moves.append((row, current_col))
-                break 
+                break
 
         # Checking downward moves
         for row in range(current_row + 1, 8):
@@ -98,40 +101,43 @@ class Rook(ChessPiece):
                 break
 
         return set(moves)
-    
+
 
 class Knight(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'n' if player == 1 else 'N'
-    
+
     def possible_moves(self, current_row, current_col, board):
         moves = []
-        possible_directions = [(-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2, 1)]
+        possible_directions = [(-2, -1), (-2, 1),
+                               (-1, -2), (-1, 2),
+                               (1, -2), (1, 2),
+                               (2, -1), (2, 1)]
 
         for direction in possible_directions:
-            new_row  = current_row + direction[0]
-            new_col =  current_col + direction[1]
+            new_row = current_row + direction[0]
+            new_col = current_col + direction[1]
             if 0 <= new_row < 8 and 0 <= new_col < 8:
                 destination = board.pieces[new_row][new_col]
                 if destination is None or destination.player != self.player:
                     moves.append((new_row, new_col))
 
-        return set(moves) 
+        return set(moves)
+
 
 class Bishop(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'b' if player == 1 else 'B'
-    
 
     def possible_moves(self, current_row, current_col, board):
         moves = []
         possible_directions = [(-1, -1), (-1, 1), (1, -1), (1, 1)]
 
         for direction in possible_directions:
-            new_row  = current_row + direction[0]
-            new_col =  current_col + direction[1]
+            new_row = current_row + direction[0]
+            new_col = current_col + direction[1]
             while 0 <= new_row < 8 and 0 <= new_col < 8:
                 destination_piece = board.pieces[new_row][new_col]
 
@@ -141,23 +147,24 @@ class Bishop(ChessPiece):
                     moves.append((new_row, new_col))
                     break
                 else:
-                    break 
+                    break
 
                 new_row += direction[0]
                 new_col += direction[1]
 
         return set(moves)
 
+
 class Queen(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'q' if player == 1 else 'Q'
-    
+
     def possible_moves(self, current_row, current_col, board):
         moves = []
         possible_directions = [
-            (-1, 0), (1, 0), (0, -1), (0, 1),  #upward, downward, left, right
-            (-1, -1), (-1, 1), (1, -1), (1, 1) #diagonal
+            (-1, 0), (1, 0), (0, -1), (0, 1),  # upward, downward, left, right
+            (-1, -1), (-1, 1), (1, -1), (1, 1)  # diagonal
         ]
 
         for direction in possible_directions:
@@ -172,24 +179,24 @@ class Queen(ChessPiece):
                     moves.append((new_row, new_col))
                     break
                 else:
-                    break 
+                    break
 
                 new_row += direction[0]
                 new_col += direction[1]
 
         return set(moves)
 
+
 class King(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'k' if player == 1 else 'K'
-    
 
     def possible_moves(self, current_row, current_col, board):
         moves = []
         directions = [
             (-1, 0), (1, 0), (0, -1), (0, 1),
-            (-1, -1), (-1, 1), (1, -1), (1, 1)  
+            (-1, -1), (-1, 1), (1, -1), (1, 1)
         ]
 
         for direction in directions:
@@ -201,6 +208,7 @@ class King(ChessPiece):
                     moves.append((new_row, new_col))
 
         return set(moves)
+
 
 class ChessBoard:
     def __init__(self):
@@ -235,7 +243,7 @@ class ChessBoard:
     def place_piece(self, piece, row, col):
         self._board[row][col] = str(piece)
         self._pieces[row][col] = piece
-    
+
     @property
     def board(self):
         return self._board
@@ -243,7 +251,6 @@ class ChessBoard:
     def create_empty_board(self):
         self._board = [['O' if (i + j) % 2 == 0 else 'X' for j in range(8)] for i in range(8)]
         self._pieces = [[None for j in range(8)] for i in range(8)]
-    
 
     @property
     def pieces(self):
@@ -251,14 +258,14 @@ class ChessBoard:
 
     def display_board(self):
         for row_number, row in enumerate(self._board, 1):
-            print(str(row_number) + ' '+ ' '.join(row))
-        
-        print('  ', end ='')
+            print(str(row_number) + ' ' + ' '.join(row))
+
+        print('  ', end='')
         for column_number in range(1, 9):
-            print(str(column_number) + ' ', end = '')
-    
+            print(str(column_number) + ' ', end='')
+
     def move_piece(self, piece_row, piece_column, row_to_move, column_to_move, player):
-        #Function has to get already corrected coordinates. Coordinates have to be corrected (row -1, column - 1) outside the function.
+        # Function has to get already corrected coordinates. Coordinates have to be corrected (row -1, column - 1) outside the function.
         if not (0 <= piece_row < 8 and 0 <= piece_column < 8 and 0 <= row_to_move < 8 and 0 <= column_to_move < 8):
             raise CoordinatesOutOfRange()
 
@@ -286,9 +293,9 @@ class ChessBoard:
 
         # Display the updated board
         self.display_board()
-    
+
     def is_in_check(self, row, col, player):
-        # Check if the piece is under threat 
+        # Check if the piece is under threat
         for i in range(8):
             for j in range(8):
                 piece = self._pieces[i][j]
@@ -297,7 +304,7 @@ class ChessBoard:
                     if (row, col) in moves:
                         return True
         return False
-    
+
     def is_checkmate(self, player):
         # True if in checkmate, Flase if not
         # Find the king's position for the player
@@ -311,7 +318,6 @@ class ChessBoard:
             if king_position:
                 break
 
-
         # Check if the king is in check
         if self.is_in_check(king_position[0], king_position[1], player):
             # Check if there are any legal moves to escape the check
@@ -324,7 +330,7 @@ class ChessBoard:
                             temp_board = self.copy_board()
                             temp_board.move_piece(row, col, move[0], move[1], player)
                             if not temp_board.is_in_check(king_position[0], king_position[1], player):
-                                return False  
+                                return False
 
             return True
 
@@ -336,7 +342,6 @@ class ChessBoard:
         copy_board._board = [row.copy() for row in self._board]
         copy_board._pieces = [row.copy() for row in self._pieces]
         return copy_board
-
 
 
 board = ChessBoard()
