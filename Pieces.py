@@ -303,8 +303,6 @@ class ChessBoard:
                 if piece is not None:
                     self._board[row][col] = str(piece)
 
-        # Display the updated board
-        self.display_board()
 
     def is_in_check(self, row, col, player):
         # Check if the piece is under threat
@@ -356,5 +354,3 @@ class ChessBoard:
         return copy_board
 
 
-board = ChessBoard()
-board.display_board()
