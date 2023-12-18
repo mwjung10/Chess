@@ -286,3 +286,98 @@ def test_move_piece_invalid_move():
 
     with pytest.raises(InvalidMove):
         board.move_piece(1, 1, 4, 4, 1)
+
+
+def test_is_in_check_no_threat():
+    board = ChessBoard()
+    board.place_piece(King(1), 2, 2)
+    board.place_piece(King(2), 5, 5)
+    assert not board.is_in_check(2, 2, 1)
+    assert not board.is_in_check(5, 5, 2)
+
+
+def test_is_in_check_by_rook():
+    board = ChessBoard()
+    board.create_empty_board()
+    board.place_piece(Rook(2), 2, 2)
+    board.place_piece(King(1), 2, 5)
+    assert board.is_in_check(2, 5, 1)
+
+
+def test_is_in_check_by_bishop():
+    board = ChessBoard()
+    board.create_empty_board()
+    board.place_piece(Bishop(2), 2, 2)
+    board.place_piece(King(1), 5, 5)
+    assert board.is_in_check(5, 5, 1)
+
+
+def test_is_in_check_by_knight():
+    board = ChessBoard()
+    board.create_empty_board()
+    board.place_piece(King(1), 4, 2)
+    board.place_piece(Knight(2), 2, 3)
+    assert board.is_in_check(4, 2, 1)
+
+
+def test_is_in_check_by_pawn():
+    board = ChessBoard()
+    board.create_empty_board()
+    board.place_piece(King(2), 5, 3)
+    board.place_piece(Pawn(1), 4, 4)
+    assert board.is_in_check(5, 3, 2)
+
+
+def test_is_in_check_multiple_threats():
+    board = ChessBoard()
+    board.create_empty_board()
+    board.place_piece(King(1), 4, 2)
+    board.place_piece(Rook(2), 2, 2)
+    board.place_piece(Bishop(2), 3, 3)
+    assert board.is_in_check(4, 2, 1)
+
+
+def test_remove_piece_successful():
+    board = ChessBoard()
+    assert board.pieces[1][2].player == 1
+
+    board.remove_piece(1, 2)
+
+    assert board.pieces[1][2] is None
+
+
+def test_remove_piece_invalid_coordinates():
+    board = ChessBoard()
+    with pytest.raises(CoordinatesOutOfRange):
+        board.remove_piece(8, 8)
+
+
+def test_remove_piece_empty_square():
+    board = ChessBoard()
+    with pytest.raises(InvalidMove):
+        board.remove_piece(2, 2)
+
+
+def test_is_checkmate_no_threat():
+    board = ChessBoard()
+    assert not board.is_checkmate(1)
+    assert not board.is_checkmate(2)
+
+
+def test_is_checkmate_check_no_escape():
+    board = ChessBoard()
+    board.create_empty_board()
+    board.place_piece(King(2), 7, 7)
+    board.place_piece(Queen(1), 7, 5)
+    board.place_piece(Rook(1), 0, 7)
+    board.place_piece(King(1), 3, 6)
+    assert board.is_checkmate(2)
+    assert not board.is_checkmate(1)
+
+
+def test_is_checkmate_check_with_escape():
+    board = ChessBoard()
+    board.remove_piece(6, 4)
+    board.place_piece(Rook(1), 2, 4)
+    assert not board.is_checkmate(1)
+    assert not board.is_checkmate(2)

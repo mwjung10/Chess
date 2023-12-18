@@ -282,8 +282,20 @@ class ChessBoard:
 
         self.update_board_display()
 
+    def remove_piece(self, piece_row, piece_column):
+        if not (0 <= piece_row < 8 and 0 <= piece_column < 8):
+            raise CoordinatesOutOfRange()
+
+        current_piece = self._pieces[piece_row][piece_column]
+
+        if current_piece is None:
+            raise InvalidMove()
+
+        self._pieces[piece_row][piece_column] = None
+
     def update_board_display(self):
-        self._board = [['O' if (i + j) % 2 == 0 else 'X' for j in range(8)] for i in range(8)]
+        self._board = [['O' if (i + j) % 2 == 0 else 'X' for j in range(8)]
+                       for i in range(8)]
 
         for row in range(8):
             for col in range(8):
@@ -312,7 +324,7 @@ class ChessBoard:
         for row in range(8):
             for col in range(8):
                 piece = self._pieces[row][col]
-                if isinstance(piece, King) and piece.player == player:
+                if piece and piece.symbol.upper() == 'K' and piece.player == player:
                     king_position = (row, col)
                     break
             if king_position:
