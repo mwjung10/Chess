@@ -210,35 +210,40 @@ class King(ChessPiece):
         return set(moves)
 
 
+def create_empty_board():
+    return ChessBoard(False)
+
+
 class ChessBoard:
-    def __init__(self):
+    def __init__(self, empty=True):
         self._board = [['O' if (i + j) % 2 == 0 else 'X' for j in range(8)] for i in range(8)]
         self._pieces = [[None for j in range(8)] for i in range(8)]
         # Place pieces for Player 1
-        self.place_piece(Rook(1), 0, 0)
-        self.place_piece(Knight(1), 0, 1)
-        self.place_piece(Bishop(1), 0, 2)
-        self.place_piece(Queen(1), 0, 3)
-        self.place_piece(King(1), 0, 4)
-        self.place_piece(Bishop(1), 0, 5)
-        self.place_piece(Knight(1), 0, 6)
-        self.place_piece(Rook(1), 0, 7)
+        if empty:
+            self.place_piece(Rook(1), 0, 0)
+            self.place_piece(Knight(1), 0, 1)
+            self.place_piece(Bishop(1), 0, 2)
+            self.place_piece(Queen(1), 0, 3)
+            self.place_piece(King(1), 0, 4)
+            self.place_piece(Bishop(1), 0, 5)
+            self.place_piece(Knight(1), 0, 6)
+            self.place_piece(Rook(1), 0, 7)
 
-        for i in range(8):
-            self.place_piece(Pawn(1), 1, i)
+            for i in range(8):
+                self.place_piece(Pawn(1), 1, i)
 
-        # Place pieces for Player 2
-        self.place_piece(Rook(2), 7, 0)
-        self.place_piece(Knight(2), 7, 1)
-        self.place_piece(Bishop(2), 7, 2)
-        self.place_piece(Queen(2), 7, 3)
-        self.place_piece(King(2), 7, 4)
-        self.place_piece(Bishop(2), 7, 5)
-        self.place_piece(Knight(2), 7, 6)
-        self.place_piece(Rook(2), 7, 7)
+            # Place pieces for Player 2
+            self.place_piece(Rook(2), 7, 0)
+            self.place_piece(Knight(2), 7, 1)
+            self.place_piece(Bishop(2), 7, 2)
+            self.place_piece(Queen(2), 7, 3)
+            self.place_piece(King(2), 7, 4)
+            self.place_piece(Bishop(2), 7, 5)
+            self.place_piece(Knight(2), 7, 6)
+            self.place_piece(Rook(2), 7, 7)
 
-        for i in range(8):
-            self.place_piece(Pawn(2), 6, i)
+            for i in range(8):
+                self.place_piece(Pawn(2), 6, i)
 
     def place_piece(self, piece, row, col):
         self._board[row][col] = str(piece)
@@ -248,9 +253,6 @@ class ChessBoard:
     def board(self):
         return self._board
 
-    def create_empty_board(self):
-        self._board = [['O' if (i + j) % 2 == 0 else 'X' for j in range(8)] for i in range(8)]
-        self._pieces = [[None for j in range(8)] for i in range(8)]
 
     @property
     def pieces(self):
