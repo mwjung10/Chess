@@ -382,6 +382,3 @@ class ChessBoard:
         copy_board._pieces = [row.copy() for row in self._pieces]
         return copy_board
 
-
-board = ChessBoard()
-board.display_board()
