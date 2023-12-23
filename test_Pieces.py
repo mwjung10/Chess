@@ -6,17 +6,17 @@ import pytest
 
 
 def test_piece_creation():
-    pawn = Pawn(1)
+    pawn = Pawn(Player.WHITE)
     assert pawn.player == Player.WHITE
     assert str(pawn) == 'p'
 
-    rook = Rook(2)
+    rook = Rook(Player.BLACK)
     assert rook.player == Player.BLACK
     assert str(rook) == 'R'
 
 
 def test_CheessPiece_creation():
-    piece = ChessPiece(2)
+    piece = ChessPiece(Player.BLACK)
     assert piece.player == Player.BLACK
 
 
@@ -30,7 +30,7 @@ def test_board_creation():
 
 def test_place_piece():
     board = ChessBoard()
-    piece = Rook(1)
+    piece = Rook(Player.WHITE)
     board.place_piece(piece, 2, 3)
     assert str(board.pieces[2][3]) == 'r'
     assert board.board[2][3] == 'r'
@@ -48,16 +48,16 @@ def test_Pawn_possible_moves_player_2():
 
 def test_Pawn_possible_moves_diagonal_capture():
     board = create_empty_board()
-    pawn = Pawn(1)
+    pawn = Pawn(Player.WHITE)
     board.place_piece(pawn, 1, 0)
-    board.place_piece(Pawn(2), 2, 1)
+    board.place_piece(Pawn(Player.BLACK), 2, 1)
     assert board.pieces[1][0].possible_moves(1, 0, board) == {(2, 0), (3, 0),
                                                               (2, 1)}
 
 
 def test_rook_possible_moves_only_rook_on_the_board():
     board = create_empty_board()
-    rook = Rook(1)
+    rook = Rook(Player.WHITE)
     board.place_piece(rook, 4, 4)
     assert rook.possible_moves(4, 4, board) == {
         (3, 4), (2, 4), (1, 4), (0, 4),
@@ -69,10 +69,10 @@ def test_rook_possible_moves_only_rook_on_the_board():
 
 def test_Rock_possible_moves_other_pieces_on_the_board():
     board = create_empty_board()
-    rook = Rook(1)
+    rook = Rook(Player.WHITE)
     board.place_piece(rook, 4, 4)
-    board.place_piece(Pawn(2), 4, 2)
-    board.place_piece(Knight(1), 1, 4)
+    board.place_piece(Pawn(Player.BLACK), 4, 2)
+    board.place_piece(Knight(Player.WHITE), 1, 4)
     assert {
         (1, 4), (0, 4),
         (5, 4), (6, 4), (7, 4),
@@ -83,7 +83,7 @@ def test_Rock_possible_moves_other_pieces_on_the_board():
 
 def test_knight_possible_moves_only_knight_on_the_board():
     board = create_empty_board()
-    knight = Knight(1)
+    knight = Knight(Player.WHITE)
     board.place_piece(knight, 4, 4)
     assert knight.possible_moves(4, 4, board) == {
         (2, 3), (2, 5),
@@ -95,16 +95,16 @@ def test_knight_possible_moves_only_knight_on_the_board():
 
 def test_knight_possible_moves_other_pieces_on_the_board():
     board = create_empty_board()
-    knight = Knight(1)
+    knight = Knight(Player.WHITE)
     board.place_piece(knight, 4, 4)
-    board.place_piece(Pawn(2), 2, 3)
-    board.place_piece(Knight(1), 3, 2)
+    board.place_piece(Pawn(Player.BLACK), 2, 3)
+    board.place_piece(Knight(Player.WHITE), 3, 2)
     assert (3, 2) not in knight.possible_moves(4, 4, board)
 
 
 def test_bishop_possible_moves_only_bishop_on_the_board():
     board = create_empty_board()
-    bishop = Bishop(1)
+    bishop = Bishop(Player.WHITE)
     board.place_piece(bishop, 3, 3)
     assert bishop.possible_moves(3, 3, board) == {
         (2, 2), (1, 1), (0, 0),
@@ -116,7 +116,7 @@ def test_bishop_possible_moves_only_bishop_on_the_board():
 
 def test_bishop_possible_moves_other_pieces_on_the_board():
     board = create_empty_board()
-    bishop = Bishop(1)
+    bishop = Bishop(Player.WHITE)
     board.place_piece(bishop, 3, 3)
     board.place_piece(Pawn(2), 2, 2)
     board.place_piece(Knight(1), 1, 1)
@@ -127,7 +127,7 @@ def test_bishop_possible_moves_other_pieces_on_the_board():
 
 def test_bishop_possible_moves_blocked_by_pieces():
     board = create_empty_board()
-    bishop = Bishop(1)
+    bishop = Bishop(Player.WHITE)
     board.place_piece(bishop, 3, 3)
     board.place_piece(Pawn(1), 2, 2)
     board.place_piece(Pawn(2), 2, 4)
@@ -139,7 +139,7 @@ def test_bishop_possible_moves_blocked_by_pieces():
 
 def test_queen_possible_moves_only_queen_on_the_board():
     board = create_empty_board()
-    queen = Queen(1)
+    queen = Queen(Player.WHITE)
     board.place_piece(queen, 3, 3)
     assert queen.possible_moves(3, 3, board) == {
         (2, 3), (1, 3), (0, 3),
@@ -155,7 +155,7 @@ def test_queen_possible_moves_only_queen_on_the_board():
 
 def test_queen_possible_moves_other_pieces_on_the_board():
     board = create_empty_board()
-    queen = Queen(1)
+    queen = Queen(Player.WHITE)
     board.place_piece(queen, 3, 3)
     board.place_piece(Pawn(2), 2, 3)
     board.place_piece(Knight(1), 1, 3)
@@ -166,7 +166,7 @@ def test_queen_possible_moves_other_pieces_on_the_board():
 
 def test_queen_possible_moves_blocked_by_pieces():
     board = create_empty_board()
-    queen = Queen(1)
+    queen = Queen(Player.WHITE)
     board.place_piece(queen, 3, 3)
     board.place_piece(Pawn(1), 2, 3)
     board.place_piece(Pawn(2), 2, 2)
@@ -178,7 +178,7 @@ def test_queen_possible_moves_blocked_by_pieces():
 
 def test_king_possible_moves_only_king_on_the_board():
     board = create_empty_board()
-    king = King(1)
+    king = King(Player.WHITE)
     board.place_piece(king, 3, 3)
     assert king.possible_moves(3, 3, board) == {
         (2, 3), (2, 2), (2, 4),
@@ -189,19 +189,19 @@ def test_king_possible_moves_only_king_on_the_board():
 
 def test_king_possible_moves_other_pieces_on_the_board():
     board = create_empty_board()
-    king = King(1)
+    king = King(Player.WHITE)
     board.place_piece(king, 3, 3)
-    board.place_piece(Pawn(2), 2, 3)
-    board.place_piece(Knight(1), 4, 2)
+    board.place_piece(Pawn(Player.BLACK), 2, 3)
+    board.place_piece(Knight(Player.WHITE), 4, 2)
     assert (4, 2) not in king.possible_moves(3, 3, board)
 
 
 def test_king_possible_moves_blocked_by_pieces():
     board = create_empty_board()
-    king = King(1)
+    king = King(Player.WHITE)
     board.place_piece(king, 3, 3)
-    board.place_piece(Pawn(1), 2, 3)
-    board.place_piece(Pawn(2), 2, 2)
+    board.place_piece(Pawn(Player.WHITE), 2, 3)
+    board.place_piece(Pawn(Player.BLACK), 2, 2)
     assert (2, 3) not in king.possible_moves(3, 3, board)
 
 
@@ -218,7 +218,7 @@ def test_create_empty():
 
 def test_move_piece_successful():
     board = create_empty_board()
-    board.place_piece(Rook(1), 1, 1)
+    board.place_piece(Rook(Player.WHITE), 1, 1)
 
     assert board.pieces[1][1].player == Player.WHITE
     assert board.pieces[2][1] is None

@@ -1,6 +1,4 @@
-from Pieces import ChessPiece, ChessBoard
-from Pieces import Pawn, Rook, Bishop, Knight, King, Queen
-from Pieces import CoordinatesOutOfRange, InvalidMove
+from Pieces import ChessBoard
 
 
 def main():
@@ -18,9 +16,11 @@ def main():
         piece_row, piece_col = move_from[0] - 1, move_from[1] - 1
         current_piece = board.pieces[piece_row][piece_col]
 
-        possible_moves = current_piece.possible_moves(piece_row, piece_col, board)
+        possible_moves = current_piece.possible_moves(piece_row, piece_col,
+                                                      board)
 
-        print(f"Possible moves for the selected piece at ({move_from[0]}, {move_from[1]}): ", end="")
+        print(f'''Possible moves for the selected piece at
+               ({move_from[0]}, {move_from[1]}): ''', end="")
         for move in possible_moves:
             print(f"({move[0] + 1}, {move[1] + 1}), ", end="")
 
@@ -30,7 +30,8 @@ def main():
         move_to = [int(m) for m in move_to]
         dest_row, dest_col = move_to[0] - 1, move_to[1] - 1
 
-        board.move_piece(piece_row, piece_col, dest_row, dest_col, current_player)
+        board.move_piece(piece_row, piece_col, dest_row, dest_col,
+                         current_player)
 
         if board.is_checkmate(current_player):
             board.display_board()
@@ -38,7 +39,6 @@ def main():
             break
 
         current_player = 3 - current_player
-
 
 
 if __name__ == '__main__':
