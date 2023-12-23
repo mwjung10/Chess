@@ -1,6 +1,13 @@
+from enum import Enum
+
+class Player(Enum):
+    WHITE = 1
+    BLACK = 2
+
+
 class ChessPiece:
     def __init__(self, player):
-        self._player = player
+        self._player = Player(player)
 
     @property
     def player(self):
@@ -27,20 +34,20 @@ class InvalidMove(Exception):
 class Pawn(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self._symbol = 'p' if player == 1 else 'P'
+        self._symbol = 'p' if player == Player.WHITE.value else 'P'
 
     def possible_moves(self, current_row, current_col, board):
         moves = []
 
-        forward_row = current_row + (-1 if self.player == 2 else 1)
+        forward_row = current_row + (-1 if self.player == Player.BLACK else 1)
         if (0 <= forward_row <= 7 and
                 board.pieces[forward_row][current_col] is None):
             moves.append((forward_row, current_col))
             # If pawn is on the first row it can move 2 swquares forward
-            if (((self.player == 2 and current_row == 6) or
-                    (self.player == 1 and current_row == 1)) and
-                    board.pieces[forward_row - 1 * (1 if self.player == 2 else - 1)][current_col] is None):
-                moves.append((forward_row - 1 * (1 if self.player == 2 else -1), current_col))
+            if (((self.player == Player.BLACK and current_row == 6) or
+                    (self.player == Player.WHITE and current_row == 1)) and
+                    board.pieces[forward_row - 1 * (1 if self.player == Player.BLACK else - 1)][current_col] is None):
+                moves.append((forward_row - 1 * (1 if self.player == Player.BLACK else -1), current_col))
 
         # Checking for diagonal captures
         left_col = current_col - 1
@@ -59,7 +66,7 @@ class Pawn(ChessPiece):
 class Rook(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self._symbol = 'r' if player == 1 else 'R'
+        self._symbol = 'r' if player == Player.WHITE.value else 'R'
 
     def possible_moves(self, current_row, current_col, board):
         moves = []
@@ -106,7 +113,7 @@ class Rook(ChessPiece):
 class Knight(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self._symbol = 'n' if player == 1 else 'N'
+        self._symbol = 'n' if player == Player.WHITE.value else 'N'
 
     def possible_moves(self, current_row, current_col, board):
         moves = []
@@ -129,7 +136,7 @@ class Knight(ChessPiece):
 class Bishop(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self._symbol = 'b' if player == 1 else 'B'
+        self._symbol = 'b' if player == Player.WHITE.value else 'B'
 
     def possible_moves(self, current_row, current_col, board):
         moves = []
@@ -158,7 +165,7 @@ class Bishop(ChessPiece):
 class Queen(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self._symbol = 'q' if player == 1 else 'Q'
+        self._symbol = 'q' if player == Player.WHITE.value else 'Q'
 
     def possible_moves(self, current_row, current_col, board):
         moves = []
@@ -190,7 +197,7 @@ class Queen(ChessPiece):
 class King(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self._symbol = 'k' if player == 1 else 'K'
+        self._symbol = 'k' if player == Player.WHITE.value else 'K'
 
     def possible_moves(self, current_row, current_col, board):
         moves = []
@@ -220,30 +227,30 @@ class ChessBoard:
         self._pieces = [[None for j in range(8)] for i in range(8)]
         # Place pieces for Player 1
         if empty:
-            self.place_piece(Rook(1), 0, 0)
-            self.place_piece(Knight(1), 0, 1)
-            self.place_piece(Bishop(1), 0, 2)
-            self.place_piece(Queen(1), 0, 3)
-            self.place_piece(King(1), 0, 4)
-            self.place_piece(Bishop(1), 0, 5)
-            self.place_piece(Knight(1), 0, 6)
-            self.place_piece(Rook(1), 0, 7)
+            self.place_piece(Rook(Player.WHITE.value), 0, 0)
+            self.place_piece(Knight(Player.WHITE.value), 0, 1)
+            self.place_piece(Bishop(Player.WHITE.value), 0, 2)
+            self.place_piece(Queen(Player.WHITE.value), 0, 3)
+            self.place_piece(King(Player.WHITE.value), 0, 4)
+            self.place_piece(Bishop(Player.WHITE.value), 0, 5)
+            self.place_piece(Knight(Player.WHITE.value), 0, 6)
+            self.place_piece(Rook(Player.WHITE.value), 0, 7)
 
             for i in range(8):
-                self.place_piece(Pawn(1), 1, i)
+                self.place_piece(Pawn(Player.WHITE.value), 1, i)
 
             # Place pieces for Player 2
-            self.place_piece(Rook(2), 7, 0)
-            self.place_piece(Knight(2), 7, 1)
-            self.place_piece(Bishop(2), 7, 2)
-            self.place_piece(Queen(2), 7, 3)
-            self.place_piece(King(2), 7, 4)
-            self.place_piece(Bishop(2), 7, 5)
-            self.place_piece(Knight(2), 7, 6)
-            self.place_piece(Rook(2), 7, 7)
+            self.place_piece(Rook(Player.BLACK.value), 7, 0)
+            self.place_piece(Knight(Player.BLACK.value), 7, 1)
+            self.place_piece(Bishop(Player.BLACK.value), 7, 2)
+            self.place_piece(Queen(Player.BLACK.value), 7, 3)
+            self.place_piece(King(Player.BLACK.value), 7, 4)
+            self.place_piece(Bishop(Player.BLACK.value), 7, 5)
+            self.place_piece(Knight(Player.BLACK.value), 7, 6)
+            self.place_piece(Rook(Player.BLACK.value), 7, 7)
 
             for i in range(8):
-                self.place_piece(Pawn(2), 6, i)
+                self.place_piece(Pawn(Player.BLACK.value), 6, i)
 
     def place_piece(self, piece, row, col):
         self._board[row][col] = str(piece)
@@ -252,7 +259,6 @@ class ChessBoard:
     @property
     def board(self):
         return self._board
-
 
     @property
     def pieces(self):
