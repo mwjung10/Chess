@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QSizePolicy
 from PyQt5.uic import loadUi
 from Pieces import ChessBoard, Player, InvalidMove, CoordinatesOutOfRange
 
@@ -22,9 +22,8 @@ class ChessMainWindow(QMainWindow):
                     button.clicked.connect(lambda _, r=row, c=col: self.move_piece(r, c))
 
         # Display the current player's turn
-        self.turn_label = QLabel(self)
-        self.turn_label.setGeometry(10, 10, 150, 30)
         self.update_turn_label()
+
 
     def update_board_display(self):
         # GUI update, so it will reflect the current state of the chessboard
@@ -54,7 +53,7 @@ class ChessMainWindow(QMainWindow):
 
     def update_turn_label(self):
         # Update the label to show the current player's turn
-        self.turn_label.setText(f"Turn: {self.current_player.name}")
+        self.PlayerTurn.setText(f"Turn: {self.current_player.name}")
 
 
 def main():
