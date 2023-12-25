@@ -40,6 +40,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="field_0_0">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -47,6 +50,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_0_1">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -54,6 +60,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_0_2">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -61,6 +70,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_0_3">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -68,6 +80,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_0_4">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -75,6 +90,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_0_5">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -82,6 +100,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_0_6">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -89,6 +110,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_0_7">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -100,6 +124,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QPushButton" name="field_1_0">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -107,6 +134,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_1_1">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -114,6 +144,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_1_2">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -121,6 +154,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_1_3">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -128,6 +164,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_1_4">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -135,6 +174,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_1_5">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -142,6 +184,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_1_6">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -149,6 +194,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_1_7">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -160,6 +208,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QPushButton" name="field_2_0">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -167,6 +218,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_2_1">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -174,6 +228,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_2_2">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -181,6 +238,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_2_3">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -188,6 +248,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_2_4">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -195,6 +258,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_2_5">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -202,6 +268,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_2_6">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -209,6 +278,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_2_7">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -220,6 +292,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QPushButton" name="field_3_0">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -227,6 +302,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_3_1">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -234,6 +312,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_3_2">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -241,6 +322,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_3_3">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -248,6 +332,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_3_4">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -255,6 +342,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_3_5">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -262,6 +352,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_3_6">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -269,6 +362,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_3_7">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -280,6 +376,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
          <widget class="QPushButton" name="field_4_0">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -287,6 +386,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_4_1">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -294,6 +396,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_4_2">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -301,6 +406,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_4_3">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -308,6 +416,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_4_4">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -315,6 +426,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_4_5">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -322,6 +436,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_4_6">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -329,6 +446,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_4_7">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -340,6 +460,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
          <widget class="QPushButton" name="field_5_0">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -347,6 +470,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_5_1">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -354,6 +480,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_5_2">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -361,6 +490,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_5_3">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -368,6 +500,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_5_4">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -375,6 +510,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_5_5">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -382,6 +520,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_5_6">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -389,6 +530,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_5_7">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -400,6 +544,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_7">
         <item>
          <widget class="QPushButton" name="field_6_0">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -407,6 +554,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_6_1">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -414,6 +564,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_6_2">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -421,6 +574,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_6_3">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -428,6 +584,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_6_4">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -435,6 +594,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_6_5">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -442,6 +604,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_6_6">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -449,6 +614,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_6_7">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -460,6 +628,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_8">
         <item>
          <widget class="QPushButton" name="field_7_0">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -467,6 +638,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_7_1">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -474,6 +648,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_7_2">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -481,6 +658,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_7_3">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -488,6 +668,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_7_4">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -495,6 +678,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_7_5">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -502,6 +688,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_7_6">
+          <property name="styleSheet">
+           <string notr="true">background-color: #41b564;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>
@@ -509,6 +698,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="field_7_7">
+          <property name="styleSheet">
+           <string notr="true">background-color: #d6d0a9;</string>
+          </property>
           <property name="text">
            <string>PushButton</string>
           </property>

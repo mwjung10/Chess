@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QSizePolicy
 from PyQt5.uic import loadUi
+from PyQt5.QtGui import QIcon
 from Pieces import ChessBoard, Player, InvalidMove, CoordinatesOutOfRange
 
 
@@ -36,7 +37,10 @@ class ChessMainWindow(QMainWindow):
 
                 if button is not None:
                     if piece is not None:
-                        button.setText(str(piece))
+                        if str(piece) == 'p':
+                            button.setIcon(QIcon("images_pieces\black-pawn.png")) #Still doesn't work
+                        else:
+                            button.setText(str(piece))
                     else:
                         button.setText("")
 
