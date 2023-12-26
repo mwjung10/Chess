@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QSizePolicy
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
 from Pieces import ChessBoard, Player, InvalidMove, CoordinatesOutOfRange
@@ -21,11 +21,11 @@ class ChessMainWindow(QMainWindow):
                 button_name = f"field_{row}_{col}"
                 button = getattr(self, button_name, None)
                 if button:
-                    button.clicked.connect(lambda _, r=row, c=col: self.move_piece(r, c))
+                    button.clicked.connect(lambda _, r=row, c=col:
+                                           self.move_piece(r, c))
 
         # Display the current player's turn
         self.update_turn_label()
-
 
     def update_board_display(self):
         # GUI update, so it will reflect the current state of the chessboard
@@ -39,29 +39,41 @@ class ChessMainWindow(QMainWindow):
                 if button is not None:
                     if piece is not None:
                         if str(piece) == 'p':
-                            button.setIcon(QIcon("images_pieces\\white-pawn.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\white-pawn.png"))
                         elif str(piece) == 'P':
-                            button.setIcon(QIcon("images_pieces\\black-pawn.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\black-pawn.png"))
                         elif str(piece) == 'r':
-                            button.setIcon(QIcon("images_pieces\\white-rook.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\white-rook.png"))
                         elif str(piece) == 'R':
-                            button.setIcon(QIcon("images_pieces\\black-rook.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\black-rook.png"))
                         elif str(piece) == 'n':
-                            button.setIcon(QIcon("images_pieces\\white-knight.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\white-knight.png"))
                         elif str(piece) == 'N':
-                            button.setIcon(QIcon("images_pieces\\black-knight.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\black-knight.png"))
                         elif str(piece) == 'b':
-                            button.setIcon(QIcon("images_pieces\\white-bishop.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\white-bishop.png"))
                         elif str(piece) == 'B':
-                            button.setIcon(QIcon("images_pieces\\black-bishop.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\black-bishop.png"))
                         elif str(piece) == 'q':
-                            button.setIcon(QIcon("images_pieces\\white-queen.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\white-queen.png"))
                         elif str(piece) == 'Q':
-                            button.setIcon(QIcon("images_pieces\\black-queen.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\black-queen.png"))
                         elif str(piece) == 'k':
-                            button.setIcon(QIcon("images_pieces\\white-king.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\white-king.png"))
                         elif str(piece) == 'K':
-                            button.setIcon(QIcon("images_pieces\\black-king.png"))
+                            button.setIcon(QIcon(
+                                "images_pieces\\black-king.png"))
                     else:
                         button.setText("")
                         button.setIcon(QIcon())
@@ -75,8 +87,10 @@ class ChessMainWindow(QMainWindow):
                     self.selected_piece = (row, col)
                     self.highlight_possible_moves(row, col)
             else:
-                # If a piece is selected, try to move the piece to the clicked square
-                self.chess_board.move_piece(self.selected_piece[0], self.selected_piece[1], row, col, self.current_player)
+                # If a piece is selected, move the piece to the clicked square
+                self.chess_board.move_piece(self.selected_piece[0],
+                                            self.selected_piece[1], row, col,
+                                            self.current_player)
                 self.update_board_display()
                 self.switch_turn()
                 self.selected_piece = None
@@ -85,7 +99,8 @@ class ChessMainWindow(QMainWindow):
 
     def highlight_possible_moves(self, row, col):
         selected_piece = self.chess_board.pieces[row][col]
-        possible_moves = selected_piece.possible_moves(row, col, self.chess_board)
+        possible_moves = selected_piece.possible_moves(row, col,
+                                                       self.chess_board)
 
         for r in range(8):
             for c in range(8):
@@ -96,14 +111,16 @@ class ChessMainWindow(QMainWindow):
                     if (r, c) in possible_moves:
                         button.setStyleSheet("background-color: #c5e371;")
                     else:
-                        if (r+c)%2:
+                        if (r+c) % 2:
                             button.setStyleSheet("background-color: #1eb053;")
                         else:
                             button.setStyleSheet("background-color: #d6d0a9;")
         self.repaint()
 
     def switch_turn(self):
-        self.current_player = Player.BLACK if self.current_player == Player.WHITE else Player.WHITE
+        self.current_player = (Player.BLACK if
+                               self.current_player == Player.WHITE else
+                               Player.WHITE)
         self.update_turn_label()
 
     def update_turn_label(self):
