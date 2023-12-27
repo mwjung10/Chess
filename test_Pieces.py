@@ -370,22 +370,7 @@ def test_is_checkmate_check_with_escape():
     assert not board.is_checkmate(Player.BLACK)
 
 
-    # Arrange
-    board = ChessBoard()
-    board.move_piece(1, 4, 2, 4, Player.WHITE)
-    board.move_piece(0, 6, 2, 5, Player.WHITE)
-
-    # Act
-    board.move_piece(0, 4, 0, 6, Player.WHITE)
-
-    # Assert
-    assert str(board.pieces[0][6]) == 'K'
-    assert str(board.pieces[0][5]) == 'R'
-    assert board.castling_right_WHITE
-
-
 def test_successful_castling_white_kingside():
-    # Arrange
     board = ChessBoard()
     board.move_piece(1, 4, 2, 4, Player.WHITE)
     board.move_piece(0, 6, 2, 5, Player.WHITE)
@@ -398,7 +383,6 @@ def test_successful_castling_white_kingside():
 
 
 def test_successful_castling_black_queenside():
-    # Arrange
     board = ChessBoard()
     board.move_piece(6, 4, 5, 4, Player.BLACK)
     board.move_piece(7, 1, 5, 2, Player.BLACK)

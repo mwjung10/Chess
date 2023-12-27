@@ -95,11 +95,11 @@ class ChessMainWindow(QMainWindow):
                                             self.selected_piece[1], row, col,
                                             self.current_player)
 
-
                 self.update_board_display()
                 if self.chess_board.is_checkmate(self.current_player):
                     self.switch_turn()
-                    self.show_game_over(f"Checkmate! Player {self.current_player.name} wins.")
+                    self.show_game_over(f"Checkmate! Player\
+                                         {self.current_player.name} wins.")
                 self.switch_turn()
                 self.selected_piece = None
         except (InvalidMove, CoordinatesOutOfRange) as e:
@@ -133,9 +133,10 @@ class ChessMainWindow(QMainWindow):
                                self.current_player == Player.WHITE else
                                Player.WHITE)
         self.update_turn_label()
-        #If there is a threat of checkamate, the king will highlight red
+        # If there is a threat of checkamate, the king will highlight red
         king_pos = self.chess_board.king_pos(self.current_player)
-        if self.chess_board.is_in_check(king_pos[0], king_pos[1], self.current_player):
+        if self.chess_board.is_in_check(king_pos[0], king_pos[1],
+                                        self.current_player):
             button_name = f"field_{king_pos[0]}_{king_pos[1]}"
             button = getattr(self, button_name, None)
             button.setStyleSheet("background-color: #F53636;")

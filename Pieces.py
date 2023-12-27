@@ -339,12 +339,16 @@ class ChessBoard:
 
         pos_moves = current_piece.possible_moves(piece_row, piece_column, self)
         if isinstance(current_piece, King):
-            pos_moves.update(current_piece.castling_moves(piece_row, piece_column, self))
+            pos_moves.update(current_piece.castling_moves(piece_row,
+                                                          piece_column, self))
         if (row_to_move, column_to_move) not in pos_moves:
             raise InvalidMove()
 
-        if ((isinstance(current_piece, King)) and (row_to_move, column_to_move) in current_piece.castling_moves(piece_row, piece_column, self)):
-            self.castle(piece_row, piece_column, row_to_move, column_to_move, player)
+        if ((isinstance(current_piece, King)) and (row_to_move, column_to_move)
+                in current_piece.castling_moves(piece_row, piece_column,
+                                                self)):
+            self.castle(piece_row, piece_column, row_to_move, column_to_move,
+                        player)
         else:
             self._pieces[piece_row][piece_column] = None
             self._pieces[row_to_move][column_to_move] = current_piece
@@ -387,9 +391,11 @@ class ChessBoard:
             new_king_col = 2
 
         # Update the positions of the king and rook
-        self._pieces[new_king_row][new_king_col] = self._pieces[king_row][king_col]
+        self._pieces[new_king_row][new_king_col] = self._pieces[king_row][
+            king_col]
         self._pieces[king_row][king_col] = None
-        self._pieces[new_king_row][new_rook_col] = self._pieces[new_king_row][rook_col]
+        self._pieces[new_king_row][new_rook_col] = self._pieces[new_king_row][
+            rook_col]
         self._pieces[new_king_row][rook_col] = None
 
         # Disable castling for the player after castling
