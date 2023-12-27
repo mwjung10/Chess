@@ -375,6 +375,14 @@ class ChessBoard:
 
         return False
 
+    def king_pos(self, player):
+        for row in range(8):
+            for col in range(8):
+                piece = self._pieces[row][col]
+                if (piece and piece.symbol.upper() == 'K' and
+                        piece.player == player):
+                    return (row, col)
+
     def copy_board(self):
         # Create a copy of the current board and pieces
         copy_board = ChessBoard()
