@@ -368,3 +368,61 @@ def test_is_checkmate_check_with_escape():
     assert board.pieces[2][4].player == Player.WHITE
     assert not board.is_checkmate(Player.WHITE)
     assert not board.is_checkmate(Player.BLACK)
+
+
+    # Arrange
+    board = ChessBoard()
+    board.move_piece(1, 4, 2, 4, Player.WHITE)
+    board.move_piece(0, 6, 2, 5, Player.WHITE)
+
+    # Act
+    board.move_piece(0, 4, 0, 6, Player.WHITE)
+
+    # Assert
+    assert str(board.pieces[0][6]) == 'K'
+    assert str(board.pieces[0][5]) == 'R'
+    assert board.castling_right_WHITE
+
+
+def test_successful_castling_white_kingside():
+    # Arrange
+    board = ChessBoard()
+    board.move_piece(1, 4, 2, 4, Player.WHITE)
+    board.move_piece(0, 6, 2, 5, Player.WHITE)
+    board.move_piece(0, 5, 2, 3, Player.WHITE)
+
+    assert board.castling_right_WHITE
+    board.move_piece(0, 4, 0, 7, Player.WHITE)
+    assert not board.castling_right_WHITE
+    assert not board.castling_left_WHITE
+
+
+def test_successful_castling_black_queenside():
+    # Arrange
+    board = ChessBoard()
+    board.move_piece(6, 4, 5, 4, Player.BLACK)
+    board.move_piece(7, 1, 5, 2, Player.BLACK)
+    board.move_piece(6, 3, 5, 3, Player.BLACK)
+    board.move_piece(7, 2, 6, 3, Player.BLACK)
+    board.move_piece(7, 3, 3, 7, Player.BLACK)
+
+    assert board.castling_left_BLACK
+    board.move_piece(7, 4, 7, 0, Player.BLACK)
+    assert not board.castling_left_BLACK
+
+
+def test_castling_invalid_due_to_check():
+    board = create_empty_board()
+    board.place_piece(King(Player.WHITE), 0, 4)
+    board.place_piece(Rook(Player.WHITE), 0, 7)
+    board.place_piece(Rook(Player.BLACK), 5, 4)
+
+    assert board.is_in_check(0, 4, Player.WHITE)
+    with pytest.raises(InvalidMove):
+        board.move_piece(0, 4, 0, 7, Player.WHITE)
+
+
+def test_castling_invalid_due_to_pieces_in_between():
+    board = ChessBoard()
+    with pytest.raises(InvalidMove):
+        board.move_piece(0, 4, 0, 7, Player.WHITE)

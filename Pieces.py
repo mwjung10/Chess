@@ -229,6 +229,40 @@ class King(ChessPiece):
 
         return set(moves)
 
+    def castling_moves(self, current_row, current_col, board):
+        moves = []
+        if not board.is_in_check(current_row, current_col, self.player):
+            # Check kingside castling
+            if (self.player == Player.WHITE and
+                    board.castling_right_WHITE and
+                    current_row == 0 and current_col == 4):
+                if (board.pieces[0][5] is None and
+                        board.pieces[0][6] is None):
+                    moves.append((0, 7))
+            elif (self.player == Player.BLACK and
+                  board.castling_right_BLACK and
+                  current_row == 7 and current_col == 4):
+                if (board.pieces[7][5] is None and
+                        board.pieces[7][6] is None):
+                    moves.append((7, 7))
+
+            # Check queenside castling
+            if (self.player == Player.WHITE and
+                    board.castling_left_WHITE and
+                    current_row == 0 and current_col == 4):
+                if (board.pieces[0][3] is None and
+                        board.pieces[0][2] is None and
+                        board.pieces[0][1] is None):
+                    moves.append((0, 0))
+            elif (self.player == Player.BLACK and
+                  board.castling_left_BLACK and
+                  current_row == 7 and current_col == 4):
+                if (board.pieces[7][3] is None and
+                        board.pieces[7][2] is None and
+                        board.pieces[7][1] is None):
+                    moves.append((7, 0))
+        return set(moves)
+
 
 def create_empty_board():
     return ChessBoard(False)
@@ -236,6 +270,10 @@ def create_empty_board():
 
 class ChessBoard:
     def __init__(self, empty=True):
+        self.castling_left_WHITE = True
+        self.castling_right_WHITE = True
+        self.castling_left_BLACK = True
+        self.castling_right_BLACK = True
         self._board = [['O' if (i + j) % 2 == 0 else 'X' for j in range(8)]
                        for i in range(8)]
         self._pieces = [[None for j in range(8)] for i in range(8)]
@@ -299,14 +337,72 @@ class ChessBoard:
         if current_piece is None or current_piece.player != player:
             raise InvalidMove()
 
-        if ((row_to_move, column_to_move) not in
-                current_piece.possible_moves(piece_row, piece_column, self)):
+        pos_moves = current_piece.possible_moves(piece_row, piece_column, self)
+        if isinstance(current_piece, King):
+            pos_moves.update(current_piece.castling_moves(piece_row, piece_column, self))
+        if (row_to_move, column_to_move) not in pos_moves:
             raise InvalidMove()
 
-        self._pieces[piece_row][piece_column] = None
-        self._pieces[row_to_move][column_to_move] = current_piece
+        if ((isinstance(current_piece, King)) and (row_to_move, column_to_move) in current_piece.castling_moves(piece_row, piece_column, self)):
+            self.castle(piece_row, piece_column, row_to_move, column_to_move, player)
+        else:
+            self._pieces[piece_row][piece_column] = None
+            self._pieces[row_to_move][column_to_move] = current_piece
+
+        # If King or Rook moves disable castling
+        if isinstance(current_piece, King):
+            if player == Player.WHITE:
+                self.castling_left_WHITE = False
+                self.castling_right_WHITE = False
+            else:
+                self.castling_left_BLACK = False
+                self.castling_right_BLACK = False
+        elif isinstance(current_piece, Rook):
+            if player == Player.WHITE:
+                if piece_row == 0:
+                    if piece_column == 0:
+                        self.castling_left_WHITE = False
+                    elif piece_column == 7:
+                        self.castling_right_WHITE = False
+            else:
+                if piece_row == 7:
+                    if piece_column == 0:
+                        self.castling_left_BLACK = False
+                    elif piece_column == 7:
+                        self.castling_right_BLACK = False
 
         self.update_board_display()
+
+    def castle(self, king_row, king_col, new_king_row, new_king_col, player):
+        # Determine the rook's position based on the castling direction
+        if new_king_col == 7:
+            # Kingside castling
+            rook_col = 7
+            new_rook_col = 5
+            new_king_col = 6
+        else:
+            # Queenside castling
+            rook_col = 0
+            new_rook_col = 3
+            new_king_col = 2
+
+        # Update the positions of the king and rook
+        self._pieces[new_king_row][new_king_col] = self._pieces[king_row][king_col]
+        self._pieces[king_row][king_col] = None
+        self._pieces[new_king_row][new_rook_col] = self._pieces[new_king_row][rook_col]
+        self._pieces[new_king_row][rook_col] = None
+
+        # Disable castling for the player after castling
+        if player == Player.WHITE:
+            if new_king_col > king_col:
+                self.castling_right_WHITE = False
+            else:
+                self.castling_left_WHITE = False
+        else:
+            if new_king_col > king_col:
+                self.castling_right_BLACK = False
+            else:
+                self.castling_left_BLACK = False
 
     def remove_piece(self, piece_row, piece_column):
         if not (0 <= piece_row < 8 and 0 <= piece_column < 8):
