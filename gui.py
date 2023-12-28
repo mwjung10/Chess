@@ -2,7 +2,8 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
-from Pieces import ChessBoard, Player, InvalidMove, CoordinatesOutOfRange, King
+from Pieces import ChessBoard, Player, InvalidMove, CoordinatesOutOfRange
+from Pieces import King, Pawn
 
 
 class ChessMainWindow(QMainWindow):
@@ -116,6 +117,9 @@ class ChessMainWindow(QMainWindow):
         if (isinstance(selected_piece, King)):
             possible_moves.update(selected_piece.castling_moves(row, col,
                                                                 board))
+        if (isinstance(selected_piece, Pawn)):
+            possible_moves.update(
+                selected_piece.en_passant_possible_moves(row, col, board))
 
         for r in range(8):
             for c in range(8):

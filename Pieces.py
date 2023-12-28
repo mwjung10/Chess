@@ -36,6 +36,7 @@ class Pawn(ChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self._symbol = 'p' if player == Player.WHITE else 'P'
+        self.en_passant_eligible = False
 
     def possible_moves(self, current_row, current_col, board):
         moves = []
@@ -69,6 +70,29 @@ class Pawn(ChessPiece):
                     board.pieces[forward_row][right_col].player !=
                     self.player):
                 moves.append((forward_row, right_col))
+
+        return set(moves)
+
+    def en_passant_possible_moves(self, current_row, current_col, board):
+        moves = []
+
+        left_col = current_col - 1
+        right_col = current_col + 1
+        forward_row = current_row + (-1 if self.player == Player.BLACK else 1)
+        if (0 <= forward_row < 8 and 0 <= left_col < 8 and
+            board.pieces[current_row][left_col] is not None and
+            isinstance(board.pieces[current_row][left_col], Pawn) and
+            board.pieces[current_row][left_col].en_passant_eligible and
+                board.pieces[current_row][left_col].player != self.player):
+            moves.append((forward_row, left_col))
+
+        if (0 <= forward_row < 8 and 0 <= right_col < 8 and
+            board.pieces[current_row][right_col] is not None and
+            isinstance(board.pieces[current_row][right_col], Pawn) and
+            board.pieces[current_row][right_col].en_passant_eligible and
+                board.pieces[current_row][right_col].player !=
+                self.player):
+            moves.append((forward_row, right_col))
 
         return set(moves)
 
@@ -337,21 +361,44 @@ class ChessBoard:
         if current_piece is None or current_piece.player != player:
             raise InvalidMove()
 
+        # Adds all possible moves (+en passant en castling)
         pos_moves = current_piece.possible_moves(piece_row, piece_column, self)
         if isinstance(current_piece, King):
             pos_moves.update(current_piece.castling_moves(piece_row,
                                                           piece_column, self))
+        if isinstance(current_piece, Pawn):
+            pos_moves.update(current_piece.en_passant_possible_moves(
+                piece_row, piece_column, self))
+
         if (row_to_move, column_to_move) not in pos_moves:
             raise InvalidMove()
 
+        # Checks if player wants to castle
         if ((isinstance(current_piece, King)) and (row_to_move, column_to_move)
                 in current_piece.castling_moves(piece_row, piece_column,
                                                 self)):
             self.castle(piece_row, piece_column, row_to_move, column_to_move,
                         player)
+        # Checks if player want to capture en passant
+        elif (isinstance(current_piece, Pawn) and (row_to_move, column_to_move)
+              in current_piece.en_passant_possible_moves(piece_row,
+                                                         piece_column, self)):
+            self.handle_en_passant(piece_row, piece_column, row_to_move,
+                                   column_to_move)
+        # Other moves
         else:
             self._pieces[piece_row][piece_column] = None
             self._pieces[row_to_move][column_to_move] = current_piece
+
+        for row in self._pieces:
+            for piece in row:
+                if isinstance(piece, Pawn):
+                    piece.en_passant_eligible = False
+
+        # Checks if player wants to move a pawn two squares forward
+        if (isinstance(current_piece, Pawn) and
+                abs(piece_row - row_to_move) == 2):
+            current_piece.en_passant_eligible = True
 
         # If King or Rook moves disable castling
         if isinstance(current_piece, King):
@@ -376,6 +423,16 @@ class ChessBoard:
                         self.castling_right_BLACK = False
 
         self.update_board_display()
+
+    def handle_en_passant(self, piece_row, piece_column, row_to_move,
+                          col_to_move):
+        current_piece = self._pieces[piece_row][piece_column]
+
+        self._pieces[piece_row][piece_column] = None
+        self._pieces[row_to_move][col_to_move] = current_piece
+        beaten_piece_row = row_to_move + (1 if current_piece.player ==
+                                          Player.BLACK else -1)
+        self._pieces[beaten_piece_row][col_to_move] = None
 
     def castle(self, king_row, king_col, new_king_row, new_king_col, player):
         # Determine the rook's position based on the castling direction

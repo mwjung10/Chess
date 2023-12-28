@@ -410,3 +410,108 @@ def test_castling_invalid_due_to_pieces_in_between():
     board = ChessBoard()
     with pytest.raises(InvalidMove):
         board.move_piece(0, 4, 0, 7, Player.WHITE)
+
+
+def test_en_passant_eligibility_after_double_move():
+    board = ChessBoard()
+    pawn1 = board.pieces[6][3]
+
+    assert pawn1.en_passant_eligible is False
+    board.move_piece(6, 3, 4, 3, Player.BLACK)
+    assert pawn1.en_passant_eligible is True
+
+
+def test_en_passant_capture_successful_white():
+    board = ChessBoard()
+    pawn1 = board.pieces[1][3]
+    pawn2 = board.pieces[6][4]
+    board.move_piece(1, 3, 3, 3, Player.WHITE)
+    board.move_piece(3, 3, 4, 3, Player.WHITE)
+    board.move_piece(6, 4, 4, 4, Player.BLACK)
+
+    assert pawn2.en_passant_eligible is True
+    assert pawn1.en_passant_eligible is False
+
+    board.move_piece(4, 3, 5, 4, Player.WHITE)
+    assert board.pieces[5][4] == pawn1
+    assert board.pieces[4][4] is None
+
+
+def test_en_passant_capture_invalid_no_eligibility_white():
+    board = ChessBoard()
+    pawn1 = board.pieces[1][3]
+    pawn1 = board.pieces[1][3]
+    pawn2 = board.pieces[6][4]
+    board.move_piece(1, 3, 3, 3, Player.WHITE)
+    board.move_piece(3, 3, 4, 3, Player.WHITE)
+    board.move_piece(6, 4, 5, 4, Player.BLACK)
+    board.move_piece(5, 4, 4, 4, Player.BLACK)
+
+    assert pawn2.en_passant_eligible is False
+    assert pawn1.en_passant_eligible is False
+
+    with pytest.raises(InvalidMove):
+        board.move_piece(4, 3, 5, 4, Player.WHITE)
+
+def test_en_passant_capture_successful_black():
+    board = ChessBoard()
+    pawn1 = board.pieces[6][3]
+    pawn2 = board.pieces[1][4]
+    board.move_piece(6, 3, 4, 3, Player.BLACK)
+    board.move_piece(4, 3, 3, 3, Player.BLACK)
+    board.move_piece(1, 4, 3, 4, Player.WHITE)
+
+    assert pawn2.en_passant_eligible is True
+    assert pawn1.en_passant_eligible is False
+
+    board.move_piece(3, 3, 2, 4, Player.BLACK)
+    assert board.pieces[2][4] == pawn1
+    assert board.pieces[3][4] is None
+
+
+def test_en_passant_capture_invalid_no_eligibility_black():
+    board = ChessBoard()
+    pawn1 = board.pieces[6][3]
+    pawn2 = board.pieces[1][4]
+    board.move_piece(6, 3, 4, 3, Player.BLACK)
+    board.move_piece(4, 3, 3, 3, Player.BLACK)
+    board.move_piece(1, 4, 2, 4, Player.WHITE)
+    board.move_piece(2, 4, 3, 4, Player.WHITE)
+
+    assert pawn2.en_passant_eligible is False
+    assert pawn1.en_passant_eligible is False
+
+    with pytest.raises(InvalidMove):
+        board.move_piece(3, 3, 2, 4, Player.BLACK)
+
+
+def test_en_passant_reset_when_no_capture_black():
+    board = ChessBoard()
+    pawn1 = board.pieces[6][3]
+    pawn2 = board.pieces[1][4]
+    board.move_piece(6, 3, 4, 3, Player.BLACK)
+    board.move_piece(4, 3, 3, 3, Player.BLACK)
+    board.move_piece(1, 4, 3, 4, Player.WHITE)
+
+    assert pawn2.en_passant_eligible is True
+    assert pawn1.en_passant_eligible is False
+
+    board.move_piece(3, 3, 2, 3, Player.BLACK)
+    assert pawn2.en_passant_eligible is False
+    assert pawn1.en_passant_eligible is False
+
+
+def test_en_passant_reset_when_no_capture_white():
+    board = ChessBoard()
+    pawn1 = board.pieces[1][3]
+    pawn2 = board.pieces[6][4]
+    board.move_piece(1, 3, 3, 3, Player.WHITE)
+    board.move_piece(3, 3, 4, 3, Player.WHITE)
+    board.move_piece(6, 4, 4, 4, Player.BLACK)
+
+    assert pawn2.en_passant_eligible is True
+    assert pawn1.en_passant_eligible is False
+
+    board.move_piece(4, 3, 5, 3, Player.WHITE)
+    assert pawn2.en_passant_eligible is False
+    assert pawn1.en_passant_eligible is False
