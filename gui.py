@@ -91,7 +91,9 @@ class ChessMainWindow(QMainWindow):
                 # If a piece is selected, move the piece to the clicked square
                 piece = self.chess_board.pieces[row][col]
                 if str(piece) in ["k", "K"]:
-                    print("GAME OVER")
+                    self.show_game_over(
+                        f"Checkmate! Player {self.current_player.name} wins.")
+                    return
                 self.chess_board.move_piece(self.selected_piece[0],
                                             self.selected_piece[1], row, col,
                                             self.current_player)
@@ -103,11 +105,21 @@ class ChessMainWindow(QMainWindow):
                                          {self.current_player.name} wins.")
                 self.switch_turn()
                 self.selected_piece = None
-        except (InvalidMove, CoordinatesOutOfRange) as e:
-            print(f"Error: {e}")  # TO BE CHANGED
+        except (InvalidMove, CoordinatesOutOfRange):
+            pass
 
     def show_game_over(self, message):
-        print(message)
+        # Show the game-over label and disable the buttons
+        self.game_over_label.setText(message)
+        self.PlayerTurn.clear()
+        self.PlayerTurn.setStyleSheet("")
+        self.game_over_label.show()
+        for row in range(8):
+            for col in range(8):
+                button_name = f"field_{row}_{col}"
+                button = getattr(self, button_name, None)
+                if button:
+                    button.setEnabled(False)
 
     def highlight_possible_moves(self, row, col):
         board = self.chess_board
