@@ -3,10 +3,24 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
 from Pieces import ChessBoard, Player, InvalidMove, CoordinatesOutOfRange
-from Pieces import King, Pawn
 
 
 class ChessMainWindow(QMainWindow):
+    """
+    The main window for the Chess game application.
+
+    This class represents the graphical user interface (GUI) for a Chess game,
+    allowing players to make moves on the chessboard.
+
+    Attributes:
+        chess_board (ChessBoard): An instance of the ChessBoard class
+        representing the current state of the chessboard.
+        current_player (Player): An instance of the Player enum representing
+            the current player's turn.
+        selected_piece (tuple): A tuple representing the row and column indices
+            of the currently selected chess piece.
+    """
+
     def __init__(self):
         super().__init__()
         loadUi("chess.ui", self)
@@ -29,7 +43,11 @@ class ChessMainWindow(QMainWindow):
         self.update_turn_label()
 
     def update_board_display(self):
-        # GUI update, so it will reflect the current state of the chessboard
+        """
+        Updates the graphical representation of the chessboard in the GUI.
+        Iterates over each button on the chessboard and sets the
+        appropriate icon.
+        """
         for row in range(8):
             for col in range(8):
                 piece = self.chess_board.pieces[row][col]
@@ -80,6 +98,13 @@ class ChessMainWindow(QMainWindow):
                         button.setIcon(QIcon())
 
     def move_piece(self, row, col):
+        """
+        Handles the logic for moving a chess piece on the chessboard.
+
+        Args:
+            row (int): The row of the target square.
+            col (int): The column of the target square.
+        """
         try:
             piece = self.chess_board.pieces[row][col]
             if self.selected_piece is None:
@@ -87,7 +112,11 @@ class ChessMainWindow(QMainWindow):
                 if piece is not None and piece.player == self.current_player:
                     self.selected_piece = (row, col)
                     self.highlight_possible_moves(row, col)
-            elif (self.selected_piece is not None and piece is not None and self.chess_board.pieces[self.selected_piece[0]][self.selected_piece[1]].player == piece.player and str(piece) not in ['R', 'r']):
+            # If player changes a piece to move
+            elif (self.selected_piece is not None and piece is not None and
+                  self.chess_board.pieces[self.selected_piece[0]][
+                    self.selected_piece[1]].player == piece.player and
+                    str(piece) not in ['R', 'r']):
                 if piece is not None and piece.player == self.current_player:
                     self.selected_piece = (row, col)
                     self.highlight_possible_moves(row, col)
@@ -112,7 +141,10 @@ class ChessMainWindow(QMainWindow):
             pass
 
     def show_game_over(self, message):
-        # Show the game-over label and disable the buttons
+        """
+        Displays the game-over label and disables all buttons when the
+        game is over.
+        """
         self.game_over_label.setText(message)
         self.PlayerTurn.clear()
         self.PlayerTurn.setStyleSheet("")
@@ -125,6 +157,14 @@ class ChessMainWindow(QMainWindow):
                     button.setEnabled(False)
 
     def highlight_possible_moves(self, row, col):
+        """
+        Highlights the possible moves for a selected chess piece on
+            the chessboard.
+
+        Args:
+            row (int): The row of the selected piece.
+            col (int): The column of the selected piece.
+        """
         board = self.chess_board
         selected_piece = self.chess_board.pieces[row][col]
         possible_moves = selected_piece.possible_moves(row, col, board)
@@ -152,6 +192,11 @@ class ChessMainWindow(QMainWindow):
         self.repaint()
 
     def switch_turn(self):
+        """
+        Switches the turn to the next player and updates the turn label.
+        This method also checks for checkmate and highlights the king if
+            in check.
+        """
         self.current_player = (Player.BLACK if
                                self.current_player == Player.WHITE else
                                Player.WHITE)
@@ -165,7 +210,9 @@ class ChessMainWindow(QMainWindow):
             button.setStyleSheet("background-color: #F53636;")
 
     def update_turn_label(self):
-        # Update the label to show the current player's turn
+        """
+        Updates the label to display the current player's turn.
+        """
         self.PlayerTurn.setText(f"Turn: {self.current_player.name}")
 
 
