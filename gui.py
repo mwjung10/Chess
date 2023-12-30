@@ -81,15 +81,18 @@ class ChessMainWindow(QMainWindow):
 
     def move_piece(self, row, col):
         try:
+            piece = self.chess_board.pieces[row][col]
             if self.selected_piece is None:
                 # If no piece is selected, try to select a piece
-                piece = self.chess_board.pieces[row][col]
+                if piece is not None and piece.player == self.current_player:
+                    self.selected_piece = (row, col)
+                    self.highlight_possible_moves(row, col)
+            elif (self.selected_piece is not None and piece is not None and self.chess_board.pieces[self.selected_piece[0]][self.selected_piece[1]].player == piece.player and str(piece) not in ['R', 'r']):
                 if piece is not None and piece.player == self.current_player:
                     self.selected_piece = (row, col)
                     self.highlight_possible_moves(row, col)
             else:
                 # If a piece is selected, move the piece to the clicked square
-                piece = self.chess_board.pieces[row][col]
                 if str(piece) in ["k", "K"]:
                     self.show_game_over(
                         f"Checkmate! Player {self.current_player.name} wins.")
@@ -126,10 +129,10 @@ class ChessMainWindow(QMainWindow):
         selected_piece = self.chess_board.pieces[row][col]
         possible_moves = selected_piece.possible_moves(row, col, board)
 
-        if (isinstance(selected_piece, King)):
+        if (str(selected_piece) in ["k", "K"]):
             possible_moves.update(selected_piece.castling_moves(row, col,
                                                                 board))
-        if (isinstance(selected_piece, Pawn)):
+        if (str(selected_piece) in ["p", "P"]):
             possible_moves.update(
                 selected_piece.en_passant_possible_moves(row, col, board))
 
