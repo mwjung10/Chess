@@ -21,8 +21,8 @@ class ChessMainWindow(QMainWindow):
             of the currently selected chess piece.
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         loadUi("chess.ui", self)
 
         self.chess_board = ChessBoard()
@@ -112,10 +112,35 @@ class ChessMainWindow(QMainWindow):
                 if piece is not None and piece.player == self.current_player:
                     self.selected_piece = (row, col)
                     self.highlight_possible_moves(row, col)
-            # If player changes a piece to move
+            # If player changes a piece to move and piece is not king
             elif (self.selected_piece is not None and piece is not None and
                   self.chess_board.pieces[self.selected_piece[0]][
                     self.selected_piece[1]].player == piece.player and
+                    str(self.chess_board.pieces[self.selected_piece[0]][
+                    self.selected_piece[1]]) not in ['k', 'K']):
+                if piece is not None and piece.player == self.current_player:
+                    self.selected_piece = (row, col)
+                    self.highlight_possible_moves(row, col)
+            # If player changes a piece to move and piece is king and player
+            # wants to move it on rook
+            elif (self.selected_piece is not None and piece is not None and
+                  self.chess_board.pieces[self.selected_piece[0]][
+                    self.selected_piece[1]].player == piece.player and
+                    str(self.chess_board.pieces[self.selected_piece[0]][
+                    self.selected_piece[1]]) in ['k', 'K'] and
+                    str(piece) in ['R', 'r']):
+                self.chess_board.move_piece(self.selected_piece[0],
+                                            self.selected_piece[1], row, col,
+                                            self.current_player)
+                self.update_board_display()
+                self.switch_turn()
+                self.selected_piece = None
+            # If player changes a piece to move and piece is king
+            elif (self.selected_piece is not None and piece is not None and
+                  self.chess_board.pieces[self.selected_piece[0]][
+                    self.selected_piece[1]].player == piece.player and
+                    str(self.chess_board.pieces[self.selected_piece[0]][
+                    self.selected_piece[1]]) in ['k', 'K'] and
                     str(piece) not in ['R', 'r']):
                 if piece is not None and piece.player == self.current_player:
                     self.selected_piece = (row, col)

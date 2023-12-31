@@ -453,6 +453,7 @@ def test_en_passant_capture_invalid_no_eligibility_white():
     with pytest.raises(InvalidMove):
         board.move_piece(4, 3, 5, 4, Player.WHITE)
 
+
 def test_en_passant_capture_successful_black():
     board = ChessBoard()
     pawn1 = board.pieces[6][3]
