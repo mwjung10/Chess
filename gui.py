@@ -59,40 +59,40 @@ class ChessMainWindow(QMainWindow):
                     if piece is not None:
                         if str(piece) == 'p':
                             button.setIcon(QIcon(
-                                "images_pieces\\white-pawn.png"))
+                                "images_pieces/white-pawn.png"))
                         elif str(piece) == 'P':
                             button.setIcon(QIcon(
-                                "images_pieces\\black-pawn.png"))
+                                "images_pieces/black-pawn.png"))
                         elif str(piece) == 'r':
                             button.setIcon(QIcon(
-                                "images_pieces\\white-rook.png"))
+                                "images_pieces/white-rook.png"))
                         elif str(piece) == 'R':
                             button.setIcon(QIcon(
-                                "images_pieces\\black-rook.png"))
+                                "images_pieces/black-rook.png"))
                         elif str(piece) == 'n':
                             button.setIcon(QIcon(
-                                "images_pieces\\white-knight.png"))
+                                "images_pieces/white-knight.png"))
                         elif str(piece) == 'N':
                             button.setIcon(QIcon(
-                                "images_pieces\\black-knight.png"))
+                                "images_pieces/black-knight.png"))
                         elif str(piece) == 'b':
                             button.setIcon(QIcon(
-                                "images_pieces\\white-bishop.png"))
+                                "images_pieces/white-bishop.png"))
                         elif str(piece) == 'B':
                             button.setIcon(QIcon(
-                                "images_pieces\\black-bishop.png"))
+                                "images_pieces/black-bishop.png"))
                         elif str(piece) == 'q':
                             button.setIcon(QIcon(
-                                "images_pieces\\white-queen.png"))
+                                "images_pieces/white-queen.png"))
                         elif str(piece) == 'Q':
                             button.setIcon(QIcon(
-                                "images_pieces\\black-queen.png"))
+                                "images_pieces/black-queen.png"))
                         elif str(piece) == 'k':
                             button.setIcon(QIcon(
-                                "images_pieces\\white-king.png"))
+                                "images_pieces/white-king.png"))
                         elif str(piece) == 'K':
                             button.setIcon(QIcon(
-                                "images_pieces\\black-king.png"))
+                                "images_pieces/black-king.png"))
                     else:
                         button.setText("")
                         button.setIcon(QIcon())
