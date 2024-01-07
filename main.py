@@ -1,10 +1,9 @@
+# NOT ALL LOGIC IS IMPLEMENTED HERE.
+# This was just used for testing, before implementing gui
 from Pieces import ChessBoard
 
 
-def main():
-    board = ChessBoard()
-    current_player = 1
-
+def main_logic(current_player, board):
     while True:
         board.display_board()
         print(f"\nPlayer {current_player}'s turn.")
@@ -39,6 +38,12 @@ def main():
             break
 
         current_player = 3 - current_player
+
+
+def main():
+    board = ChessBoard()
+    current_player = 1
+    main_logic(current_player, board)
 
 
 if __name__ == '__main__':
